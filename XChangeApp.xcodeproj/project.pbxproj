@@ -51,6 +51,7 @@
 		3B966038279DEB90000B64AB /* CryptoDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B966037279DEB90000B64AB /* CryptoDataModel.swift */; };
 		3B96603A279E0AB7000B64AB /* ChangeCryptoExchangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B966039279E0AB7000B64AB /* ChangeCryptoExchangeViewController.swift */; };
 		3B96603C279E0AC1000B64AB /* ChangeCryptoExchangeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B96603B279E0AC1000B64AB /* ChangeCryptoExchangeViewController.storyboard */; };
+		3B96603E279E5A8B000B64AB /* CalculateExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B96603D279E5A8B000B64AB /* CalculateExchange.swift */; };
 		A282D4F905FE7B9B8538E2D2 /* Pods_XChangeApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BBEB0A26361568E1128715C0 /* Pods_XChangeApp.framework */; };
 /* End PBXBuildFile section */
 
@@ -122,6 +123,7 @@
 		3B966037279DEB90000B64AB /* CryptoDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptoDataModel.swift; sourceTree = "<group>"; };
 		3B966039279E0AB7000B64AB /* ChangeCryptoExchangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeCryptoExchangeViewController.swift; sourceTree = "<group>"; };
 		3B96603B279E0AC1000B64AB /* ChangeCryptoExchangeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ChangeCryptoExchangeViewController.storyboard; sourceTree = "<group>"; };
+		3B96603D279E5A8B000B64AB /* CalculateExchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculateExchange.swift; sourceTree = "<group>"; };
 		5C80D10CE258DE332F84C4E3 /* Pods-XChangeApp-XChangeAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XChangeApp-XChangeAppUITests.release.xcconfig"; path = "Target Support Files/Pods-XChangeApp-XChangeAppUITests/Pods-XChangeApp-XChangeAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		6708CA3931C99E7BB90438AD /* Pods-XChangeAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XChangeAppTests.debug.xcconfig"; path = "Target Support Files/Pods-XChangeAppTests/Pods-XChangeAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BBEB0A26361568E1128715C0 /* Pods_XChangeApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XChangeApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -189,6 +191,7 @@
 				3B051881279A14FB00EE3C25 /* Models */,
 				3B05187F279A147100EE3C25 /* ViewModels */,
 				3B05184F279A145600EE3C25 /* AppDelegate.swift */,
+				3B96603D279E5A8B000B64AB /* CalculateExchange.swift */,
 				3B051851279A145600EE3C25 /* SceneDelegate.swift */,
 				3B051855279A145600EE3C25 /* Main.storyboard */,
 				3B051853279A145600EE3C25 /* ViewController.swift */,
@@ -636,6 +639,7 @@
 				3B96602B279C7EA6000B64AB /* ExchangeViewModel.swift in Sources */,
 				3B051854279A145600EE3C25 /* ViewController.swift in Sources */,
 				3B96603A279E0AB7000B64AB /* ChangeCryptoExchangeViewController.swift in Sources */,
+				3B96603E279E5A8B000B64AB /* CalculateExchange.swift in Sources */,
 				3B966023279C7465000B64AB /* ExchangeDataModel.swift in Sources */,
 				3B96601B279B82AC000B64AB /* CryptoExchangeViewController.swift in Sources */,
 				3B96601F279C6766000B64AB /* ExchangeTableViewCell.swift in Sources */,

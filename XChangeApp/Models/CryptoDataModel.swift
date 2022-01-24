@@ -23,19 +23,13 @@ struct CryptoDataModel: Codable {
 
 class CryptoAPIDataManager {
     
-    var viewModel: CryptoExchangeViewModelProtocol
-    init(viewModel: CryptoExchangeViewModelProtocol) {
-        self.viewModel = viewModel
-    }
-    
-    func fetchCryptoData(withSize size: Int,andPage page: Int) {
+    func fetchCryptoData(withSize size: Int,andPage page: Int, completion: @escaping ([CryptoDataModel]) -> (Void)) {
         let urlString = "https://www.cryptingup.com/api/assets?size=\(size)&start=\(page)"
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.fetchDataGeneric(at: url, type: CryptoAssetsDataModel.self) { result in
             switch result {
             case .success(let sucess):
-                let cellData = self.buildExchangeCellData(data: sucess.assets)
-                self.viewModel.getFetchCryptoData(data: cellData)
+                completion(sucess.assets)
             case .failure(let error):
                 print(error)
             }
@@ -54,13 +48,5 @@ class CryptoAPIDataManager {
                 print(error)
             }
         }
-    }
-    
-    func buildExchangeCellData(data: [CryptoDataModel]) -> [ExchangeCellDataModel] {
-        var exchangeCellArray = [ExchangeCellDataModel]()
-        for item in data {
-            exchangeCellArray.append(ExchangeCellDataModel(image: "c.square.fill", title: item.asset_id, exchange: item.price, description: item.description))
-        }
-        return exchangeCellArray
     }
 }

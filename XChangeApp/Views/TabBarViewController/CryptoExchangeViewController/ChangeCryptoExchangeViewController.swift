@@ -34,17 +34,18 @@ class ChangeCryptoExchangeViewController: UIViewController, LoadableViewControll
     
     func setupView(data: ExchangeCellDataModel) {
         
-        CryptoAPIDataManager(viewModel: CryptoExchangeViewModel()).fetchCryptoData(withId: data.title) { value in
-            self.cryptoExchange = value.asset.price
-            DispatchQueue.main.async {
-                if value.asset.description == "" {
-                    self.descriptionLabel.isHidden = true
-                } else {
-                self.descriptionLabel.text = value.asset.description
+        CryptoAPIDataManager().fetchCryptoData(withId: data.title, completion: { value in
+                self.cryptoExchange = value.asset.price
+                DispatchQueue.main.async {
+                    if value.asset.description == "" {
+                        self.descriptionLabel.isHidden = true
+                    } else {
+                    self.descriptionLabel.text = value.asset.description
+                    }
                 }
-            }
-        }
-        ExchangeAPIDataManager(viewModel: ExchangeViewModel()).getPairExchangeApiData(currencySelected: "USD") { double in
+            })
+        
+        ExchangeAPIDataManager().getPairExchangeApiData(currencySelected: "USD") { double in
             self.pairExchange = double
         }
         titleLabel.text = data.title

@@ -18,8 +18,7 @@ class ChangeExchangeViewController: UIViewController, LoadableViewController, UI
     static var identifier: String {
         return String(describing: ChangeExchangeViewController.self)
     }
-    
-    var exchangeRate: Double?
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,16 +36,15 @@ class ChangeExchangeViewController: UIViewController, LoadableViewController, UI
         exchangeTitle.text = exchangeSelected.title
         userExchangeImage.image = UIImage(named: userExchangeTitle.text!)
         exchangeImage.image =   UIImage(named: exchangeSelected.title)
-        self.exchangeRate = exchangeRate
     }
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if textField == userExchangeTextField {
             if  let text = textField.text, text.count > 0, let doubleText = Double(text) {
-                guard let exchangeRate = exchangeRate else {
-                    return
-                }
-            let newValue = doubleText * exchangeRate
-            exchangeLabel.text = String(format: "%.2f",newValue)
+                CalculateExchange.calculateCurrencyExchange(WithTextNumber: doubleText, ToCurrency: exchangeTitle.text ?? "", completion: { text in
+                    DispatchQueue.main.async {
+                        self.exchangeLabel.text = text
+                    }
+                })
             } else {
                 exchangeLabel.text = ""
             }

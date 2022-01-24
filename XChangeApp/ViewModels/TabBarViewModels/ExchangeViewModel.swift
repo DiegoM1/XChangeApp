@@ -14,7 +14,6 @@ protocol ExchangeViewControllerProtocol {
 protocol ExchangeViewModelProtocol {
     var view: ExchangeViewControllerProtocol? { get set }
     func viewDidLoad()
-    func getExchangeCellData(data: [ExchangeCellDataModel])
     func getCountExchange() -> Int
     func getExchangeData(withIndex index: Int) -> ExchangeCellDataModel
     func getCurrentCurrencyText() -> String
@@ -27,20 +26,27 @@ class ExchangeViewModel: ExchangeViewModelProtocol {
     private var currentCurrency: String? = nil
     var view: ExchangeViewControllerProtocol?
     var pairExchange = 0.0
+    private lazy var exchangeAPIManager: ExchangeAPIDataManager = ExchangeAPIDataManager()
     
     private var exchangeDataArray = [ExchangeCellDataModel]()
     func viewDidLoad() {
         if currentCurrency == nil {
-            ExchangeAPIDataManager(viewModel: self).getExchangeAPIData()
+            exchangeAPIManager.getExchangeAPIData() { result in
+                self.buildExchangeCellModel(data: result)
+            }
             
         } else if currentCurrency != XChangeUserDefaultManager.shared.getUserDefaultCurrency() {
-            ExchangeAPIDataManager(viewModel: self).getExchangeAPIData()
+            exchangeAPIManager.getExchangeAPIData() { result in
+                self.buildExchangeCellModel(data: result)
+            }
         }
         currentCurrency = XChangeUserDefaultManager.shared.getUserDefaultCurrency()
     }
     
     func pullToRefresh() {
-        ExchangeAPIDataManager(viewModel: self).getExchangeAPIData()
+        exchangeAPIManager.getExchangeAPIData() { result in
+            self.buildExchangeCellModel(data: result)
+        }
     }
     
     func getCurrentCurrencyText() -> String {
@@ -50,17 +56,13 @@ class ExchangeViewModel: ExchangeViewModelProtocol {
         
         return "Current currency is : Not Selected"
     }
-    func getExchangeCellData(data: [ExchangeCellDataModel]) {
-        exchangeDataArray = data
-        view?.reloadTableView()
-    }
     
     func getCountExchange() -> Int {
         exchangeDataArray.count
     }
     
     func getPairExchangeRate(_ currency: String, completion: @escaping () -> ()) {
-        ExchangeAPIDataManager(viewModel: self).getPairExchangeApiData(currencySelected: currency) { exchange in
+        ExchangeAPIDataManager().getPairExchangeApiData(currencySelected: currency) { exchange in
             self.pairExchange = exchange
             completion()
         }
@@ -72,6 +74,16 @@ class ExchangeViewModel: ExchangeViewModelProtocol {
     
     func getExchangeData(withIndex index: Int) -> ExchangeCellDataModel {
         return exchangeDataArray[index]
+    }
+    
+    func buildExchangeCellModel(data: ExchangeDataModel) {
+        let defaultExchange = XChangeConstants.defaultCurrencyToConvert
+        var exchangeCellArray = [ExchangeCellDataModel]()
+        for item in defaultExchange {
+            exchangeCellArray.append(ExchangeCellDataModel(image: item, title: item, exchange: data.conversion_rates?[item] ?? 0.0))
+        }
+        exchangeDataArray = exchangeCellArray
+        view?.reloadTableView()
     }
     
 }

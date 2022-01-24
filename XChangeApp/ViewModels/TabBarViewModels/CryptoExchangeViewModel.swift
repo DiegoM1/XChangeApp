@@ -17,7 +17,6 @@ protocol CryptoExchangeViewModelProtocol {
     func initialFetchCryptoExchangeData()
     func fetchCryptoExchangeData()
     func getCryptoDataCount() -> Int
-    func getFetchCryptoData(data: [ExchangeCellDataModel])
     func getCryptoData(withIndex index: Int) -> ExchangeCellDataModel
     func filterCyrptoExchangeData(withText text: String)
 }
@@ -31,23 +30,21 @@ class CryptoExchangeViewModel: CryptoExchangeViewModelProtocol {
     private var cryptoExchangeArrayFiltered: [ExchangeCellDataModel] = [ExchangeCellDataModel]()
     
     func viewDidLoad() {
-        cryptoAPIManager = CryptoAPIDataManager(viewModel: self)
+        cryptoAPIManager = CryptoAPIDataManager()
         initialFetchCryptoExchangeData()
     }
     
     func initialFetchCryptoExchangeData() {
-        cryptoAPIManager?.fetchCryptoData(withSize: 20, andPage: 1)
+        cryptoAPIManager?.fetchCryptoData(withSize: 20, andPage: 1) { data in
+            self.buildExchangeCellData(data: data)
+        }
     }
     
     func fetchCryptoExchangeData() {
         page += 1
-        cryptoAPIManager?.fetchCryptoData(withSize: 20 * page, andPage: 1)
-    }
-    
-    func getFetchCryptoData(data: [ExchangeCellDataModel]) {
-        cryptoExchangeArray = data
-        cryptoExchangeArrayFiltered = data
-        view?.reloadTableView()
+        cryptoAPIManager?.fetchCryptoData(withSize: 20 * page, andPage: 1) { data in
+            self.buildExchangeCellData(data: data)
+        }
     }
     
     func getCryptoDataCount() -> Int {
@@ -66,4 +63,15 @@ class CryptoExchangeViewModel: CryptoExchangeViewModelProtocol {
         }
         view?.reloadTableView()
     }
+    
+    private func buildExchangeCellData(data: [CryptoDataModel]) {
+        var exchangeCellArray = [ExchangeCellDataModel]()
+        for item in data {
+            exchangeCellArray.append(ExchangeCellDataModel(image: "c.square.fill", title: item.asset_id, exchange: item.price, description: item.description))
+        }
+        cryptoExchangeArray = exchangeCellArray
+        cryptoExchangeArrayFiltered = exchangeCellArray
+        view?.reloadTableView()
+    }
 }
+

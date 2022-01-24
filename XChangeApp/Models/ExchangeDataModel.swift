@@ -37,21 +37,14 @@ struct PairExchangeDataModel: Codable {
 
 class ExchangeAPIDataManager {
     
-    var viewModel: ExchangeViewModelProtocol
-    
-    init(viewModel: ExchangeViewModelProtocol) {
-        self.viewModel = viewModel
-    }
-    
-    func getExchangeAPIData() {
+    func getExchangeAPIData(completion: @escaping (ExchangeDataModel) -> ()) {
         let userCurrency: String = XChangeUserDefaultManager.shared.getUserDefaultCurrency()
         let urlString = "https://v6.exchangerate-api.com/v6/\(XChangeConstants.apiKey)/latest/\(userCurrency)"
         guard let url = URL(string: urlString) else { return }
         URLSession.shared.fetchDataExchangeRate(at: url) { result in
             switch result {
             case .success(let result):
-                let cellData = self.buildExchangeCellModel(data: result)
-                self.viewModel.getExchangeCellData(data: cellData)
+                completion(result)
             case .failure(let error):
                 print(error)
             }
