@@ -16,4 +16,11 @@ class CalculateExchange {
             completion(String(format: "%.2f",newValue))
         }
     }
+    
+    static func calculateCryptoExchange(WithTextNumber number: Double, cryptoExchange: Double, completion: @escaping (String) -> ()) {
+        ExchangeAPIDataManager().getPairExchangeApiData(currencySelected: "USD") { result in
+            let newValue = number * result
+               completion(String(format: "%.5f",newValue / cryptoExchange))
+        }
+    }
 }

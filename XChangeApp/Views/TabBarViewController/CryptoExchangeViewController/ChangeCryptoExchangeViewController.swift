@@ -21,7 +21,6 @@ class ChangeCryptoExchangeViewController: UIViewController, LoadableViewControll
     
     @IBOutlet weak var cryptoIdLabel: UILabel!
     
-    var pairExchange = 0.0
     var cryptoExchange = 0.0
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,9 +44,6 @@ class ChangeCryptoExchangeViewController: UIViewController, LoadableViewControll
                 }
             })
         
-        ExchangeAPIDataManager().getPairExchangeApiData(currencySelected: "USD") { double in
-            self.pairExchange = double
-        }
         titleLabel.text = data.title
         priceLabel.text = String(format: "%.2f" ,data.exchange) + " $"
         cryptoIdLabel.text = data.title
@@ -56,9 +52,11 @@ class ChangeCryptoExchangeViewController: UIViewController, LoadableViewControll
     func textFieldDidChangeSelection(_ textField: UITextField) {
             if  let text = textField.text, text.count > 0, let doubleText = Double(text) {
                 
-            let newValue = doubleText * pairExchange
-            print(pairExchange, newValue)
-                cryptoObtainedLabel.text = String(format: "%.5f",newValue / cryptoExchange)
+                CalculateExchange.calculateCryptoExchange(WithTextNumber: doubleText, cryptoExchange: cryptoExchange) { result in
+                    DispatchQueue.main.async {
+                        self.cryptoObtainedLabel.text = result
+                    }
+                }
             } else {
                 cryptoObtainedLabel.text = "0.0"
             }
